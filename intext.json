@@ -1,0 +1,40 @@
+{
+  "annotations": [
+    {
+      "annotation": "cheeseburger",
+      "tag": "dish",
+      "image": "https://spoonacular.com/menuItemImages/cheeseburger.jpg"
+    },
+    {
+      "annotation": "mushrooms",
+      "tag": "ingredient",
+      "image": "https://spoonacular.com/cdn/ingredients_100x100/mushrooms.jpg"
+    },
+    {
+      "annotation": "pepperoni",
+      "tag": "ingredient",
+      "image": "https://spoonacular.com/cdn/ingredients_100x100/pepperoni.png"
+    },
+    {
+      "annotation": "tomatoes",
+      "tag": "ingredient",
+      "image": "https://spoonacular.com/cdn/ingredients_100x100/tomato.jpg"
+    },
+    {
+      "annotation": "cheddar",
+      "tag": "ingredient",
+      "image": "https://spoonacular.com/cdn/ingredients_100x100/cheddar-cheese.jpg"
+    },
+    {
+      "annotation": "tacos",
+      "tag": "dish",
+      "image": "https://spoonacular.com/menuItemImages/taco-isolated.jpg"
+    },
+    {
+      "annotation": "pizza",
+      "tag": "dish",
+      "image": "https://spoonacular.com/menuItemImages/cheese-pizza.png"
+    }
+  ],
+  "processedInMs": 14
+}

@@ -52,7 +52,7 @@ module.exports = botBuilder((request,apiReq) => {
                      :
                      null
                       )
-                     .get()
+                     .get();
                 final.push(title);
                 const options = new fbTemplate.Text('What\'s you want to do next?')
                                 .addQuickReply('Ingredients', 'ingre-'+id)
@@ -79,27 +79,46 @@ module.exports = botBuilder((request,apiReq) => {
                   var arr =Array.apply(null, Array(Math.floor(claims.analyzedInstructions[0].steps.length/4)+1))
                   .map(function (_, i) {return i;});
                   arr.forEach((i)=>{
-                    claims.analyzedInstructions[0].steps.slice(i*4,i*4+3).forEach((instruction) =>{
-                      final.push(new fbTemplate.text("Step :"+(instruction.number)+"\n"+instruction.step)
-                      .get());
+                    claims.analyzedInstructions[0].steps.slice(i*4,i*4+4).forEach((instruction) =>{
+                      const st = "Step :"+(instruction.number)+"\n"+instruction.step;
+                      if(st.length>640){
+                        var arr =Array.apply(null, Array(Math.floor(st.length/640)+1))
+                        .map(function (_, i) {return i;});
+                        arr.forEach((i)=>{
+                          final.push(new fbTemplate.text(st.substring(i*640,i*640+640))
+                            .get());
+                        })
+                      }
+                      else{
+                        final.push(new fbTemplate.text(st).get())
+                      }
                     })
-
                   })
                 }else{
-                  final.push(new fbTemplate.text(claims.instructions).get())
+                  const clean_instruction = claims.instructions.split("  ").join(" ");
+                  if(clean_instruction.length>640){
+                    var arr =Array.apply(null, Array(Math.floor(clean_instruction.length/640)+1))
+                    .map(function (_, i) {return i;});
+                    arr.forEach((i)=>{
+                      final.push(new fbTemplate.text(clean_instruction.substring(i*640,i*640+640))
+                        .get());
+                    })
+                  }
+                  else{
+                    final.push(new fbTemplate.text(clean_instruction).get())
+                  }
+
                 }
                 const options = new fbTemplate.Text('What\'s you want to do next?')
                                 .addQuickReply('Ingredients', 'ingre-'+id)
-                                .addQuickReply('Instructions', 'inst-'+id)
                                 .addQuickReply('New Recipe', '{keyword}')
                                 .get();
                 final.push(options);
-
                 return final;
             })
             .catch(function (e) {
                 return [ botTyping.get(),
-                  botPause.get(),"Something happens in Getting ingredient:"+"\n" +e.message];
+                  botPause.get(),"Something happens in Getting instructions:"+"\n" +e.message];
             })
   }
   else if(request.text.startsWith("ingre-")){
@@ -114,7 +133,7 @@ module.exports = botBuilder((request,apiReq) => {
                 .map(function (_, i) {return i;});
                 arr.forEach((i)=>{
                   const ingredients = new fbTemplate.List("compact");
-                  claims.extendedIngredients.slice(i*4,i*4+3).forEach((ingredient) =>{
+                  claims.extendedIngredients.slice(i*4,i*4+4).forEach((ingredient) =>{
                     ingredients.addBubble(format(ingredient.name + " Amount :"
                         +ingredient.amount + " "+ingredient.unitShort),
                         format(ingredient.originalString))
@@ -127,7 +146,6 @@ module.exports = botBuilder((request,apiReq) => {
                   final.push(ingredients.get())
                 })
                 const options = new fbTemplate.Text('What\'s you want to do next?')
-                                .addQuickReply('Ingredients', 'ingre-'+id)
                                 .addQuickReply('Instructions', 'inst-'+id)
                                 .addQuickReply('New Recipe', '{keyword}')
                                 .get();
@@ -137,13 +155,46 @@ module.exports = botBuilder((request,apiReq) => {
             })
             .catch(function (e) {
                 return [ botTyping.get(),
-                  botPause.get(),"Something happens in Getting instructions :"+"\n" +e.message];
+                  botPause.get(),"Something happens in Getting ingredients :"+"\n" +e.message];
             })
   }
   else{
-    res = [ botTyping.get(),
-      botPause.get(),
-      'To find recipe type \'find '+ request.text +'\' ']
+    res = api.findInText(request.text)
+          .then((res)=>{
+            var final = [ botTyping.get(),botPause.get()]
+            if(res.annotations.length){
+              var dishes=[]
+              res.annotations.forEach((annotation)=>{
+                if (annotation.tag === "dish"){
+                  dishes.push(annotation);
+                }
+              })
+              if(dishes.length>0){
+                const d = new fbTemplate.Generic()
+                dishes.forEach((dish)=>{
+                  d.addBubble(dish.annotation)
+                  .addImage(dish.image)
+                  .addButton('search','find '+dish.annotation);
+                })
+                final.push(d.get())
+              }else{
+                final.push('To find recipe related, \n you can simply type \'find '
+                + request.text +'\' or type name of any dish');
+              }
+            }
+            else{
+              final.push('To find recipe related, \n you can simply type \'find '
+              + request.text +'\' or type name of any dish');
+            }
+
+            return final;
+          })
+          .catch(function (e) {
+              return [ botTyping.get(),
+                botPause.get(),"Something happens in searching in Texts :"+"\n" +e.message];
+          })
+
   }
+
   return res
 });

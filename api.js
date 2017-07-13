@@ -23,5 +23,18 @@ module.exports = {
         resolve(result.body);
       })
     })
+  },
+  findInText(text){
+    return new Promise((resolve, reject)=>{
+      unirest.post("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/detect")
+      .header("X-Mashape-Key", "AhiIivJDcDmshNjoOCs0RchW8vWvp1EU6D0jsnoCH8UhKAud8r")
+      .header("Content-Type", "application/x-www-form-urlencoded")
+      .header("Accept", "application/json")
+      .send("text="+text)
+      .end(function (result) {
+          resolve(result.body);
+      })
+    })
+
   }
 };

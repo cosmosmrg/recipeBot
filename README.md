@@ -1,6 +1,6 @@
-# recipeBot
+# CrispyBot
 
-* Using claudia.js to build a bot
-* Calling api of food2food
-* deploy on aws lamda
+* Claudiajs to manage AWS Lambda Function
+* spoonacular for researching recipe
+* claudia-bot-builder to integrate with facebook messenger
 * run on facebook messager "Recipe_bot" page @mayrecipe
