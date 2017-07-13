@@ -52,9 +52,11 @@
 
   => this will gave the Callback URL and Verify Token
   => need Page Access Token from last step to put in
+  => secret can be find in developer.facebook
+      => app =>settings
 
   * in the page we use to gen page access Token, under it is Webhooks
-    * setup Webhooks use Callback URL and Verify Token 
+    * setup Webhooks use Callback URL and Verify Token
     * Subscription Fields we need are
       * messages
       * message_deliveries
