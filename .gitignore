@@ -1,0 +1,6 @@
+# default
+.DS_Store
+bin
+node_modules
+# claudia
+claudia.json
