@@ -3,7 +3,8 @@
 * Claudiajs to manage AWS Lambda Function
 * spoonacular for researching recipe https://market.mashape.com/spoonacular/recipe-food-nutrition#
 * claudia-bot-builder to integrate with facebook messenger
-* run on facebook messager "Recipe_bot" page @mayrecipe
+* run on facebook messager "Crispy the bot" page
+https://www.facebook.com/Crispy-the-bot-691783887674641/
 
 # How to Install
 * if you are new to claudia
