@@ -1,11 +1,11 @@
 # CrispyBot
 
 * Claudiajs to manage AWS Lambda Function
-* spoonacular for researching recipe
+* spoonacular for researching recipe https://market.mashape.com/spoonacular/recipe-food-nutrition#
 * claudia-bot-builder to integrate with facebook messenger
 * run on facebook messager "Recipe_bot" page @mayrecipe
 
-# How to build
+# How to Install
 * if you are new to claudia
   * Install claudia
     * $npm install claudia -g
@@ -24,22 +24,44 @@
       execution roles for your Lambda function
     * AmazonAPIGatewayAdministrator  because this project use Claudia Bot Builder
   * need help? https://claudiajs.com/tutorials/installing.html
+* install all dependencies in package.json()
 
+  $npm install => this will create package-lock.json()
+
+# How to build
 * this will create claudia.json()
   $claudia create --region us-east-1 --api-module bot
 
   where bot is the name of module it can be noobbot (index should be noobbot.js),
         us-east-1 is the region you want the bot to deploy on Lambda.
+  if the role is already exists go to package.json() change name to anything else then install again
+  Cautions: this take quite long time
 
-# How to Install
-* install all dependencies in package.json()
-
-  $npm install
 
 # How to Deploy
 * to deploy on facebook Example: https://vimeo.com/170647056
 
-  $claudia update --configure-fb-bot
+  * you need a pages that currently running on facebook
+  * go to this link https://developers.facebook.com/ to create an app
+
+  * add Product messager
+  * go to Token Generation chose the page you want to    
+    create bot (require permission) then you will get the Page Access Token
+
+  $ claudia update --configure-fb-bot
+
+  => this will gave the Callback URL and Verify Token
+  => need Page Access Token from last step to put in
+
+  * in the page we use to gen page access Token, under it is Webhooks
+    * setup Webhooks use Callback URL and Verify Token 
+    * Subscription Fields we need are
+      * messages
+      * message_deliveries
+      * messaging_postbacks
+      * messaging_optins
+      * messaging_account_linking
+    * in the same area there is a dropdown to choose the page to subscribe this select the page you want to deploy bot
 
 * other platform
   https://claudiajs.com/tutorials/hello-world-chatbot.html
