@@ -1,5 +1,9 @@
 # CrispyBot
 
+**Cautions**
+you need only 3 file which are api.js,bot.js and package.json
+other file will be generate from install and build
+
 * Claudiajs to manage AWS Lambda Function
 * spoonacular for researching recipe https://market.mashape.com/spoonacular/recipe-food-nutrition#
 * claudia-bot-builder to integrate with facebook messenger
